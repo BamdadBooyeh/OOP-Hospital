@@ -1,0 +1,66 @@
+@startuml
+title Hospital Appointment System
+
+class Person {
+    - name: String
+    - age: int
+    - gender: String
+    --
+    + __init__(name: String, age: int, gender: String)
+}
+
+class Doctor {
+    - specialization: String
+    - availability: List<(datetime, datetime)>
+    --
+    + __init__(name: String, age: int, gender: String, specialization: String)
+    + add_availability(start_time: datetime, end_time: datetime)
+}
+
+class Nurse {
+    - assigned_doctor: Doctor
+    --
+    + __init__(name: String, age: int, gender: String, assigned_doctor: Doctor)
+}
+
+class Patient {
+    - medical_history: List<String>
+    - appointments: List<Appointment>
+    --
+    + __init__(name: String, age: int, gender: String, medical_history: List<String>)
+    + add_medical_history(record: String)
+}
+
+class Appointment {
+    - patient: Patient
+    - doctor: Doctor
+    - date_time: datetime
+    --
+    + __init__(patient: Patient, doctor: Doctor, date_time: datetime)
+}
+
+class Hospital {
+    - name: String
+    - doctors: List<Doctor>
+    - nurses: List<Nurse>
+    - patients: List<Patient>
+    - appointments: List<Appointment>
+    --
+    + __init__(name: String)
+    + add_doctor(doctor: Doctor)
+    + add_nurse(nurse: Nurse)
+    + add_patient(patient: Patient)
+    + book_appointment(patient: Patient, doctor: Doctor, date_time: datetime)
+}
+
+Person <|-- Doctor
+Person <|-- Nurse
+Person <|-- Patient
+Patient "1" *-- "0..*" Appointment
+Doctor "1" *-- "0..*" Appointment
+Hospital "1" *-- "0..*" Doctor
+Hospital "1" *-- "0..*" Nurse
+Hospital "1" *-- "0..*" Patient
+Hospital "1" *-- "0..*" Appointment
+
+@enduml
